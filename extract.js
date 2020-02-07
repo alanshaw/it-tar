@@ -1,5 +1,5 @@
 const defer = require('p-defer')
-const Headers = require('./headers')
+const Headers = require('./extract-headers')
 const LteReader = require('./lte-reader')
 
 function getPadding (size) {

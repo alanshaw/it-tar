@@ -1,5 +1,5 @@
 const test = require('tape')
-const Tar = require('../index')
+const Tar = require('../')
 const Fixtures = require('./fixtures')
 const Fs = require('fs')
 const pipe = require('it-pipe')

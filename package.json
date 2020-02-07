@@ -6,6 +6,8 @@
   "dependencies": {
     "bl": "^4.0.0",
     "buffer": "^5.4.3",
+    "fs-constants": "^1.0.0",
+    "it-concat": "^1.0.0",
     "it-reader": "^2.0.0",
     "p-defer": "^3.0.0"
   },
