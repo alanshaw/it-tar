@@ -96,107 +96,121 @@ test('pax', async t => {
   t.deepEqual(data.slice(), Fs.readFileSync(fixtures.PAX_TAR))
 })
 
-// test('types', function (t) {
-//   t.plan(2)
-//   var pack = tar.pack()
+test('types', async t => {
+  t.plan(2)
 
-//   pack.entry({
-//     name: 'directory',
-//     mtime: new Date(1387580181000),
-//     type: 'directory',
-//     mode: parseInt('755', 8),
-//     uname: 'maf',
-//     gname: 'staff',
-//     uid: 501,
-//     gid: 20
-//   })
+  const entries = [{
+    header: {
+      name: 'directory',
+      mtime: new Date(1387580181000),
+      type: 'directory',
+      mode: parseInt('755', 8),
+      uname: 'maf',
+      gname: 'staff',
+      uid: 501,
+      gid: 20
+    }
+  }, {
+    header: {
+      name: 'directory-link',
+      mtime: new Date(1387580181000),
+      type: 'symlink',
+      linkname: 'directory',
+      mode: parseInt('755', 8),
+      uname: 'maf',
+      gname: 'staff',
+      uid: 501,
+      gid: 20,
+      size: 9 // Should convert to zero
+    }
+  }]
 
-//   pack.entry({
-//     name: 'directory-link',
-//     mtime: new Date(1387580181000),
-//     type: 'symlink',
-//     linkname: 'directory',
-//     mode: parseInt('755', 8),
-//     uname: 'maf',
-//     gname: 'staff',
-//     uid: 501,
-//     gid: 20,
-//     size: 9 // Should convert to zero
-//   })
+  const data = await pipe(
+    entries,
+    Tar.pack(),
+    concat
+  )
 
-//   pack.finalize()
+  t.same(data.length & 511, 0)
+  t.deepEqual(data.slice(), Fs.readFileSync(fixtures.TYPES_TAR))
+})
 
-//   pack.pipe(concat(function (data) {
-//     t.equal(data.length & 511, 0)
-//     t.deepEqual(data, fs.readFileSync(fixtures.TYPES_TAR))
-//   }))
-// })
+test('long-name', async t => {
+  t.plan(2)
 
-// test('long-name', function (t) {
-//   t.plan(2)
-//   var pack = tar.pack()
+  const entries = [{
+    header: {
+      name: 'my/file/is/longer/than/100/characters/and/should/use/the/prefix/header/foobarbaz/foobarbaz/foobarbaz/foobarbaz/foobarbaz/foobarbaz/filename.txt',
+      mtime: new Date(1387580181000),
+      type: 'file',
+      mode: parseInt('644', 8),
+      uname: 'maf',
+      gname: 'staff',
+      uid: 501,
+      gid: 20
+    },
+    body: 'hello long name\n'
+  }]
 
-//   pack.entry({
-//     name: 'my/file/is/longer/than/100/characters/and/should/use/the/prefix/header/foobarbaz/foobarbaz/foobarbaz/foobarbaz/foobarbaz/foobarbaz/filename.txt',
-//     mtime: new Date(1387580181000),
-//     type: 'file',
-//     mode: parseInt('644', 8),
-//     uname: 'maf',
-//     gname: 'staff',
-//     uid: 501,
-//     gid: 20
-//   }, 'hello long name\n')
+  const data = await pipe(
+    entries,
+    Tar.pack(),
+    concat
+  )
 
-//   pack.finalize()
+  t.same(data.length & 511, 0)
+  t.deepEqual(data.slice(), Fs.readFileSync(fixtures.LONG_NAME_TAR))
+})
 
-//   pack.pipe(concat(function (data) {
-//     t.equal(data.length & 511, 0)
-//     t.deepEqual(data, fs.readFileSync(fixtures.LONG_NAME_TAR))
-//   }))
-// })
+test('large-uid-gid', async t => {
+  t.plan(2)
 
-// test('large-uid-gid', function (t) {
-//   t.plan(2)
-//   var pack = tar.pack()
+  const entries = [{
+    header: {
+      name: 'test.txt',
+      mtime: new Date(1387580181000),
+      mode: parseInt('644', 8),
+      uname: 'maf',
+      gname: 'staff',
+      uid: 1000000001,
+      gid: 1000000002
+    },
+    body: 'hello world\n'
+  }]
 
-//   pack.entry({
-//     name: 'test.txt',
-//     mtime: new Date(1387580181000),
-//     mode: parseInt('644', 8),
-//     uname: 'maf',
-//     gname: 'staff',
-//     uid: 1000000001,
-//     gid: 1000000002
-//   }, 'hello world\n')
+  const data = await pipe(
+    entries,
+    Tar.pack(),
+    concat
+  )
 
-//   pack.finalize()
+  t.same(data.length & 511, 0)
+  t.deepEqual(data.slice(), Fs.readFileSync(fixtures.LARGE_UID_GID))
+})
 
-//   pack.pipe(concat(function (data) {
-//     t.same(data.length & 511, 0)
-//     t.deepEqual(data, fs.readFileSync(fixtures.LARGE_UID_GID))
-//     fs.writeFileSync('/tmp/foo', data)
-//   }))
-// })
+test('unicode', async t => {
+  t.plan(2)
 
-// test('unicode', function (t) {
-//   t.plan(2)
-//   var pack = tar.pack()
+  const entries = [{
+    header: {
+      name: 'høstål.txt',
+      mtime: new Date(1387580181000),
+      type: 'file',
+      mode: parseInt('644', 8),
+      uname: 'maf',
+      gname: 'staff',
+      uid: 501,
+      gid: 20
+    },
+    body: 'høllø\n'
+  }]
 
-//   pack.entry({
-//     name: 'høstål.txt',
-//     mtime: new Date(1387580181000),
-//     type: 'file',
-//     mode: parseInt('644', 8),
-//     uname: 'maf',
-//     gname: 'staff',
-//     uid: 501,
-//     gid: 20
-//   }, 'høllø\n')
+  const data = await pipe(
+    entries,
+    Tar.pack(),
+    concat
+  )
 
-//   pack.finalize()
-
-//   pack.pipe(concat(function (data) {
-//     t.equal(data.length & 511, 0)
-//     t.deepEqual(data, fs.readFileSync(fixtures.UNICODE_TAR))
-//   }))
-// })
+  t.same(data.length & 511, 0)
+  t.deepEqual(data.slice(), Fs.readFileSync(fixtures.UNICODE_TAR))
+})
