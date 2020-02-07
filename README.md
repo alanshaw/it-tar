@@ -4,7 +4,7 @@
 [![dependencies Status](https://david-dm.org/alanshaw/it-tar/status.svg)](https://david-dm.org/alanshaw/it-tar)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-> it-tar is a streaming tar parser (and maybe a generator in the future) and nothing else. It operates purely using async iterables which means you can easily extract/parse tarballs without ever hitting the file system.
+> it-tar is a streaming tar parser and generator and nothing else. It operates purely using async iterables which means you can easily extract/parse tarballs without ever hitting the file system.
 > Note that you still need to gunzip your data if you have a `.tar.gz`.
 
 ## Install
@@ -15,13 +15,37 @@ npm install it-tar
 
 ## Usage
 
-`it-tar` currently only [extracts](#extracts) tarballs. Please send a PR to add packing!
+`it-tar` [packs](#packing) and [extracts](#extracts) tarballs.
 
 It implementes USTAR with additional support for pax extended headers. It should be compatible with all popular tar distributions out there (gnutar, bsdtar etc)
 
 ### Packing
 
-> TBD
+To create a pack stream use `tar.pack()` and pipe entries to it.
+
+``` js
+const Tar = require('it-tar')
+const pipe = require('it-pipe')
+const toIterable = require('stream-to-it')
+
+await pipe(
+  [
+    // add a file called my-test.txt with the content "Hello World!"
+    {
+      header: { name: 'my-test.txt' },
+      body: 'Hello World!'
+    },
+    // add a file called my-stream-test.txt from a stream
+    {
+      header: { name: 'my-stream-test.txt', size: 11 },
+      body: fs.createReadStream('./my-stream-test.txt')
+    }
+  ]
+  Tar.pack()
+  // pipe the pack stream somewhere
+  toIterable.sink(process.stdout)
+)
+```
 
 ### Extracting
 
@@ -75,10 +99,36 @@ Most of these values can be found by stat'ing a file.
 }
 ```
 
+## Modifying existing tarballs
+
+Using tar-stream it is easy to rewrite paths / change modes etc in an existing tarball.
+
+``` js
+const Tar = require('it-tar')
+const pipe = require('it-pipe')
+const toIterable = require('stream-to-it')
+
+await pipe(
+  fs.createReadStream('./old-tarball.tar'),
+  Tar.extract(),
+  async function * (source) {
+    for await (const entry of source) {
+      // let's prefix all names with 'tmp'
+      entry.header.name = path.join('tmp', entry.header.name)
+      // write the new entry to the pack stream
+      yield entry
+    }
+  },
+  Tar.pack(),
+  toIterable.sink(fs.createWriteStream('./new-tarball.tar'))
+)
+```
+
 ## Related
 
 * [`it-pipe`](https://www.npmjs.com/package/it-pipe) Utility to "pipe" async iterables together
 * [`it-reader`](https://www.npmjs.com/package/it-reader) Read an exact number of bytes from a binary (async) iterable
+* [`stream-to-it`](https://www.npmjs.com/package/stream-to-it) Convert Node.js streams to streaming iterables
 
 ## Contribute
 
