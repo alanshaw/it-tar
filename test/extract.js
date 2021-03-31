@@ -584,7 +584,7 @@ test('incomplete', async t => {
       Fs.createReadStream(Fixtures.INCOMPLETE_TAR),
       Tar.extract(),
       async source => {
-        for await (const _ of source) {} // eslint-disable-line no-unused-vars
+        for await (const _ of source) {} // eslint-disable-line no-unused-vars,no-empty
       }
     )
   } catch (err) {
