@@ -19,8 +19,7 @@
     "tape": "^5.2.2"
   },
   "scripts": {
-    "test": "standard && tape test/extract.js",
-    "test-all": "standard && tape test/*.js"
+    "test": "standard && tape test/*.js"
   },
   "keywords": [
     "tar",
