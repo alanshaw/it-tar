@@ -4,11 +4,11 @@
   "description": "it-tar is a streaming tar parser (and maybe a generator in the future) and nothing else. It operates purely using async iterables which means you can easily extract/parse tarballs without ever hitting the file system.",
   "author": "Alan Shaw",
   "dependencies": {
-    "bl": "^4.0.0",
+    "bl": "^5.0.0",
     "buffer": "^6.0.3",
     "iso-constants": "^0.1.2",
-    "it-concat": "^1.0.0",
-    "it-reader": "^2.0.0",
+    "it-concat": "^2.0.0",
+    "it-reader": "^3.0.0",
     "p-defer": "^3.0.0"
   },
   "devDependencies": {
