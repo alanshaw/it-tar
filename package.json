@@ -45,6 +45,7 @@
   "main": "index.js",
   "files": [
     "*.js",
+    "*.d.ts",
     "LICENSE"
   ],
   "directories": {
