@@ -12,6 +12,7 @@
     "p-defer": "^3.0.0"
   },
   "devDependencies": {
+    "@types/bl": "^5.0.1",
     "concat-stream": "^2.0.0",
     "it-pipe": "^1.1.0",
     "standard": "^16.0.3",
@@ -44,6 +45,7 @@
   "main": "index.js",
   "files": [
     "*.js",
+    "*.d.ts",
     "LICENSE"
   ],
   "directories": {
@@ -53,5 +55,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alanshaw/it-tar.git"
-  }
+  },
+  "types": "./index.d.ts"
 }
