@@ -1,6 +1,6 @@
 # it-tar
 
-[![build status](https://travis-ci.org/alanshaw/it-tar.svg?branch=master)](http://travis-ci.org/alanshaw/it-tar)
+[![Build status](https://github.com/alanshaw/it-tar/actions/workflows/js-test-and-release.yml/badge.svg?branch=master)](https://github.com/alanshaw/it-tar/actions/workflows/js-test-and-release.yml)
 [![dependencies Status](https://status.david-dm.org/gh/alanshaw/it-tar.svg)](https://david-dm.org/alanshaw/it-tar)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -25,7 +25,7 @@ To create a pack stream use `tar.pack()` and pipe entries to it.
 
 ``` js
 const Tar = require('it-tar')
-const pipe = require('it-pipe')
+import { pipe } from 'it-pipe'
 const toIterable = require('stream-to-it')
 
 await pipe(
@@ -53,7 +53,7 @@ To extract a stream use `tar.extract()` and pipe a [source iterable](https://gis
 
 ``` js
 const Tar = require('it-tar')
-const pipe = require('it-pipe')
+import { pipe } from 'it-pipe'
 
 await pipe(
   source, // An async iterable (for example a Node.js readable stream)
@@ -105,7 +105,7 @@ Using tar-stream it is easy to rewrite paths / change modes etc in an existing t
 
 ``` js
 const Tar = require('it-tar')
-const pipe = require('it-pipe')
+import { pipe } from 'it-pipe'
 const toIterable = require('stream-to-it')
 
 await pipe(
