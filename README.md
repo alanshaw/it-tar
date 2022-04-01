@@ -1,6 +1,6 @@
 # it-tar
 
-[![build status](https://travis-ci.org/alanshaw/it-tar.svg?branch=master)](http://travis-ci.org/alanshaw/it-tar)
+[![Build status](https://github.com/alanshaw/it-tar/actions/workflows/js-test-and-release.yml/badge.svg?branch=master)](https://github.com/alanshaw/it-tar/actions/workflows/js-test-and-release.yml)
 [![dependencies Status](https://status.david-dm.org/gh/alanshaw/it-tar.svg)](https://david-dm.org/alanshaw/it-tar)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
