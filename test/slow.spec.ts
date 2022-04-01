@@ -7,7 +7,9 @@ import Fs from 'fs'
 import toIterable from 'stream-to-it'
 import { pipe } from 'it-pipe'
 
-describe('huge', () => {
+describe('huge', function () {
+  this.timeout(120 * 1000)
+
   it('should handle huge files', async () => {
     let noEntries = false
     const hugeFileSize = 8804630528 // ~8.2GB
