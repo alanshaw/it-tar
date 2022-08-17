@@ -156,7 +156,7 @@ export function extract (options: ExtractOptions = {}): Transform<Uint8Array, Ta
 
         const body: AsyncIterable<Uint8Array> = (async function * () {
           try {
-            yield firstChunk.value.slice()
+            yield firstChunk.value.subarray()
 
             while (bytesRemaining > 0) {
               const { done, value } = await reader.nextLte(bytesRemaining)
@@ -168,7 +168,7 @@ export function extract (options: ExtractOptions = {}): Transform<Uint8Array, Ta
 
               bytesRemaining -= value.length
 
-              yield value.slice()
+              yield value.subarray()
             }
           } finally {
             bodyConsumed.resolve()

@@ -1,16 +1,27 @@
-# it-tar
+# it-tar <!-- omit in toc -->
 
-[![Build status](https://github.com/alanshaw/it-tar/actions/workflows/js-test-and-release.yml/badge.svg?branch=master)](https://github.com/alanshaw/it-tar/actions/workflows/js-test-and-release.yml)
-[![dependencies Status](https://status.david-dm.org/gh/alanshaw/it-tar.svg)](https://david-dm.org/alanshaw/it-tar)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![codecov](https://img.shields.io/codecov/c/github/alanshaw/it-tar.svg?style=flat-square)](https://codecov.io/gh/alanshaw/it-tar)
+[![CI](https://img.shields.io/github/workflow/status/alanshaw/it-tar/test%20&%20maybe%20release/master?style=flat-square)](https://github.com/alanshaw/it-tar/actions/workflows/js-test-and-release.yml)
 
-> it-tar is a streaming tar parser and generator and nothing else. It operates purely using async iterables which means you can easily extract/parse tarballs without ever hitting the file system.
-> Note that you still need to gunzip your data if you have a `.tar.gz`.
+> it-tar is a streaming tar parser (and maybe a generator in the future) and nothing else. It operates purely using async iterables which means you can easily extract/parse tarballs without ever hitting the file system.
+
+## Table of contents <!-- omit in toc -->
+
+- [Install](#install)
+- [Usage](#usage)
+  - [Packing](#packing)
+  - [Extracting](#extracting)
+    - [Headers](#headers)
+- [Modifying existing tarballs](#modifying-existing-tarballs)
+- [Related](#related)
+- [Contribute](#contribute)
+- [License](#license)
+- [Contribution](#contribution)
 
 ## Install
 
-```sh
-npm install it-tar
+```console
+$ npm i it-tar
 ```
 
 ## Usage
@@ -23,7 +34,7 @@ It implementes USTAR with additional support for pax extended headers. It should
 
 To create a pack stream use `tar.pack()` and pipe entries to it.
 
-``` js
+```js
 const Tar = require('it-tar')
 import { pipe } from 'it-pipe'
 const toIterable = require('stream-to-it')
@@ -51,7 +62,7 @@ await pipe(
 
 To extract a stream use `tar.extract()` and pipe a [source iterable](https://gist.github.com/alanshaw/591dc7dd54e4f99338a347ef568d6ee9#source-it) to it.
 
-``` js
+```js
 const Tar = require('it-tar')
 import { pipe } from 'it-pipe'
 
@@ -103,7 +114,7 @@ Most of these values can be found by stat'ing a file.
 
 Using tar-stream it is easy to rewrite paths / change modes etc in an existing tarball.
 
-``` js
+```js
 const Tar = require('it-tar')
 import { pipe } from 'it-pipe'
 const toIterable = require('stream-to-it')
@@ -126,9 +137,9 @@ await pipe(
 
 ## Related
 
-* [`it-pipe`](https://www.npmjs.com/package/it-pipe) Utility to "pipe" async iterables together
-* [`it-reader`](https://www.npmjs.com/package/it-reader) Read an exact number of bytes from a binary (async) iterable
-* [`stream-to-it`](https://www.npmjs.com/package/stream-to-it) Convert Node.js streams to streaming iterables
+- [`it-pipe`](https://www.npmjs.com/package/it-pipe) Utility to "pipe" async iterables together
+- [`it-reader`](https://www.npmjs.com/package/it-reader) Read an exact number of bytes from a binary (async) iterable
+- [`stream-to-it`](https://www.npmjs.com/package/stream-to-it) Convert Node.js streams to streaming iterables
 
 ## Contribute
 
@@ -136,4 +147,11 @@ Feel free to dive in! [Open an issue](https://github.com/alanshaw/it-tar/issues/
 
 ## License
 
-[MIT](LICENSE)
+Licensed under either of
+
+- Apache 2.0, ([LICENSE-APACHE](LICENSE-APACHE) / <http://www.apache.org/licenses/LICENSE-2.0>)
+- MIT ([LICENSE-MIT](LICENSE-MIT) / <http://opensource.org/licenses/MIT>)
+
+## Contribution
+
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.

@@ -19,8 +19,8 @@ export function lteReader (source: Source<Uint8Array>): LteReader {
           value = overflow
           overflow = null
         } else if (overflow.length > bytes) {
-          value = overflow.subarray(0, bytes)
-          overflow = overflow.subarray(bytes)
+          value = overflow.sublist(0, bytes)
+          overflow = overflow.sublist(bytes)
         } else if (overflow.length < bytes) {
           const { value: nextValue, done } = await input.next(bytes - overflow.length)
           if (done === true ?? nextValue == null) {
@@ -63,12 +63,12 @@ export function lteReader (source: Source<Uint8Array>): LteReader {
       const list = isUint8ArrayList(value) ? value : new Uint8ArrayList(value)
 
       if (overflow != null) {
-        overflow.append(list.subarray(bytes))
+        overflow.append(list.sublist(bytes))
       } else {
-        overflow = list.subarray(bytes)
+        overflow = list.sublist(bytes)
       }
 
-      return { done: false, value: list.subarray(0, bytes) }
+      return { done: false, value: list.sublist(0, bytes) }
     },
     async return () {
       return await input.return()

@@ -1,4 +1,4 @@
-import { expect } from 'aegir/utils/chai.js'
+import { expect } from 'aegir/chai'
 import * as Tar from '../src/index.js'
 import * as Fixtures from './fixtures/index.js'
 import Zlib from 'zlib'
