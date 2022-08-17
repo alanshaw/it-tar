@@ -46,7 +46,9 @@ describe('huge', function () {
           })
 
           for await (const chunk of entry.body) {
-            dataLength += chunk.length
+            // Unsure why this cast is necessary, ts linting fails otherwise
+            const byteLength: number = chunk.byteLength
+            dataLength += byteLength
           }
 
           noEntries = true
