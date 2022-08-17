@@ -1,4 +1,4 @@
-import { expect } from 'aegir/utils/chai.js'
+import { expect } from 'aegir/chai'
 import * as Tar from '../src/index.js'
 import * as Fixtures from './fixtures/index.js'
 import Zlib from 'zlib'
@@ -46,7 +46,9 @@ describe('huge', function () {
           })
 
           for await (const chunk of entry.body) {
-            dataLength += chunk.length
+            // Unsure why this cast is necessary, ts linting fails otherwise
+            const byteLength: number = chunk.byteLength
+            dataLength += byteLength
           }
 
           noEntries = true

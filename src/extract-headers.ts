@@ -107,7 +107,7 @@ function parse256 (buf: Uint8ArrayList): number {
 }
 
 const decodeOct = function (val: Uint8ArrayList, offset: number, length: number): number {
-  val = val.subarray(offset, offset + length)
+  val = val.sublist(offset, offset + length)
   offset = 0
 
   // If prefixed with 0x80 then parse as a base-256 integer
@@ -129,12 +129,12 @@ const decodeOct = function (val: Uint8ArrayList, offset: number, length: number)
       return 0
     }
 
-    return parseInt(uint8ArrayToString(val.slice(offset, end)), 8)
+    return parseInt(uint8ArrayToString(val.subarray(offset, end)), 8)
   }
 }
 
 const decodeStr = function (val: Uint8ArrayList, offset: number, length: number, encoding?: SupportedEncodings) {
-  return uint8ArrayToString(val.slice(offset, indexOf(val, 0, offset, offset + length)), encoding)
+  return uint8ArrayToString(val.subarray(offset, indexOf(val, 0, offset, offset + length)), encoding)
 }
 
 export function decodeLongPath (buf: Uint8ArrayList | Uint8Array, encoding?: SupportedEncodings) {
@@ -152,13 +152,13 @@ export function decodePax (buf: Uint8ArrayList | Uint8Array, encoding?: Supporte
       i++
     }
 
-    const len = parseInt(uint8ArrayToString(list.slice(0, i)), 10)
+    const len = parseInt(uint8ArrayToString(list.subarray(0, i)), 10)
 
     if (len === 0) {
       return result
     }
 
-    const b = uint8ArrayToString(list.slice(i + 1, len - 1), encoding)
+    const b = uint8ArrayToString(list.subarray(i + 1, len - 1), encoding)
     const keyIndex = b.indexOf('=')
 
     if (keyIndex === -1) {
@@ -166,7 +166,7 @@ export function decodePax (buf: Uint8ArrayList | Uint8Array, encoding?: Supporte
     }
 
     result[b.slice(0, keyIndex)] = b.slice(keyIndex + 1)
-    list = list.subarray(len)
+    list = list.sublist(len)
   }
 
   return result
@@ -201,14 +201,14 @@ export function decode (buf: Uint8ArrayList | Uint8Array, filenameEncoding?: Sup
     throw new Error('Invalid tar header. Maybe the tar is corrupted or it needs to be gunzipped?')
   }
 
-  if (uint8ArrayCompare(USTAR_MAGIC, list.slice(MAGIC_OFFSET, MAGIC_OFFSET + 6)) === 0) {
+  if (uint8ArrayCompare(USTAR_MAGIC, list.subarray(MAGIC_OFFSET, MAGIC_OFFSET + 6)) === 0) {
     // ustar (posix) format.
     // prepend prefix, if present.
     if (list.get(345) !== 0) {
       name = decodeStr(list, 345, 155, filenameEncoding) + '/' + name
     }
-  } else if (uint8ArrayCompare(GNU_MAGIC, list.slice(MAGIC_OFFSET, MAGIC_OFFSET + 6)) === 0 &&
-             uint8ArrayCompare(GNU_VER, list.slice(VERSION_OFFSET, VERSION_OFFSET + 2)) === 0) {
+  } else if (uint8ArrayCompare(GNU_MAGIC, list.subarray(MAGIC_OFFSET, MAGIC_OFFSET + 6)) === 0 &&
+             uint8ArrayCompare(GNU_VER, list.subarray(VERSION_OFFSET, VERSION_OFFSET + 2)) === 0) {
     // 'gnu'/'oldgnu' format. Similar to ustar, but has support for incremental and
     // multi-volume tarballs.
   } else {

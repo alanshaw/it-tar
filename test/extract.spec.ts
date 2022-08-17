@@ -1,4 +1,4 @@
-import { expect } from 'aegir/utils/chai.js'
+import { expect } from 'aegir/chai'
 import * as Tar from '../src/index.js'
 import * as Fixtures from './fixtures/index.js'
 import Fs from 'fs'
@@ -72,7 +72,7 @@ describe('extract', () => {
         const b = Fs.readFileSync(Fixtures.ONE_FILE_TAR)
 
         for (let i = 0; i < b.length; i += 321) {
-          yield b.slice(i, clamp(i + 321, b.length, b.length))
+          yield b.subarray(i, clamp(i + 321, b.length, b.length))
         }
       })(),
       Tar.extract(),
@@ -168,7 +168,7 @@ describe('extract', () => {
         const b = Fs.readFileSync(Fixtures.MULTI_FILE_TAR)
 
         for (let i = 0; i < b.length; i += 321) {
-          yield b.slice(i, clamp(i + 321, b.length, b.length))
+          yield b.subarray(i, clamp(i + 321, b.length, b.length))
         }
       })(),
       Tar.extract(),

@@ -28,7 +28,7 @@ function getPadding (size: number) {
   size &= 511
 
   if (size !== 0) {
-    return END_OF_TAR.slice(0, 512 - size)
+    return END_OF_TAR.subarray(0, 512 - size)
   }
 
   return new Uint8Array(0)
@@ -68,7 +68,7 @@ function encodePax (header: TarEntryHeader) {
     paxHeader,
     getPadding(paxHeader.length),
     Headers.encode({ ...newHeader, size: header.size, type: header.type }) ?? new Uint8Array(0)
-  ).slice()
+  ).subarray()
 }
 
 export function pack (): Transform<TarImportCandidate, Uint8Array> {
@@ -92,7 +92,7 @@ export function pack (): Transform<TarImportCandidate, Uint8Array> {
         header.size = body.length
 
         yield encode(header)
-        yield isUint8ArrayList(body) ? body.slice() : body
+        yield isUint8ArrayList(body) ? body.subarray() : body
         yield getPadding(header.size)
 
         continue
@@ -117,7 +117,7 @@ export function pack (): Transform<TarImportCandidate, Uint8Array> {
       let written = 0
       for await (const chunk of (body ?? [])) {
         written += chunk.length // eslint-disable-line @typescript-eslint/restrict-plus-operands
-        yield isUint8ArrayList(chunk) ? chunk.slice() : chunk
+        yield isUint8ArrayList(chunk) ? chunk.subarray() : chunk
       }
 
       if (written !== header.size) { // corrupting tar

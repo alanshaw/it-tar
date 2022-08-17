@@ -42,6 +42,7 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/src/index.d.ts",
       "import": "./dist/src/index.js"
     }
   },
@@ -78,15 +79,15 @@
               "release": "patch"
             },
             {
-              "type": "chore",
-              "release": "patch"
-            },
-            {
               "type": "docs",
               "release": "patch"
             },
             {
               "type": "test",
+              "release": "patch"
+            },
+            {
+              "type": "deps",
               "release": "patch"
             },
             {
@@ -116,7 +117,11 @@
               },
               {
                 "type": "docs",
-                "section": "Trivial Changes"
+                "section": "Documentation"
+              },
+              {
+                "type": "deps",
+                "section": "Dependencies"
               },
               {
                 "type": "test",
@@ -133,26 +138,27 @@
     ]
   },
   "scripts": {
+    "clean": "aegir clean",
     "lint": "aegir lint",
-    "dep-check": "aegir dep-check dist/src/**/*.js dist/test/**/*.js",
-    "build": "tsc",
-    "pretest": "npm run build && cp ./test/fixtures/*.tar ./test/fixtures/*.tar.gz ./test/fixtures/*.tgz ./dist/test/fixtures",
-    "test": "aegir test -f ./dist/test",
+    "dep-check": "aegir dep-check",
+    "build": "aegir build",
+    "postbuild": "cp ./test/fixtures/*.tar ./test/fixtures/*.tar.gz ./test/fixtures/*.tgz ./dist/test/fixtures",
+    "test": "aegir test -t node",
     "test:node": "npm run test -- -t node --cov",
     "test:electron-main": "npm run test -- -t electron-main",
-    "release": "semantic-release"
+    "release": "aegir release"
   },
   "dependencies": {
     "iso-constants": "^0.1.2",
-    "it-reader": "^5.0.1",
+    "it-reader": "^6.0.1",
     "it-stream-types": "^1.0.4",
     "it-to-buffer": "^2.0.2",
     "p-defer": "^4.0.0",
-    "uint8arraylist": "^1.5.1",
+    "uint8arraylist": "^2.3.2",
     "uint8arrays": "^3.0.0"
   },
   "devDependencies": {
-    "aegir": "^36.2.3",
+    "aegir": "^37.5.1",
     "concat-stream": "^2.0.0",
     "it-pipe": "^2.0.3",
     "stream-to-it": "^0.2.0"
