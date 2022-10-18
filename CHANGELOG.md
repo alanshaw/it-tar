@@ -1,3 +1,11 @@
+## [6.0.1](https://github.com/alanshaw/it-tar/compare/v6.0.0...v6.0.1) (2022-10-18)
+
+
+### Dependencies
+
+* bump it-to-buffer from 2.0.2 to 3.0.0 ([#43](https://github.com/alanshaw/it-tar/issues/43)) ([e8a8f0c](https://github.com/alanshaw/it-tar/commit/e8a8f0cfa5aeafac5085a532aa03262a46cd31d6))
+* bump uint8arrays from 3.1.1 to 4.0.2 ([#42](https://github.com/alanshaw/it-tar/issues/42)) ([1faebd4](https://github.com/alanshaw/it-tar/commit/1faebd4bb5759cec0ce5e97929af94d2cfaa33e3))
+
 ## [6.0.0](https://github.com/alanshaw/it-tar/compare/v5.0.0...v6.0.0) (2022-08-17)
 
 
