@@ -160,7 +160,7 @@
   "devDependencies": {
     "aegir": "^37.5.1",
     "concat-stream": "^2.0.0",
-    "it-pipe": "^2.0.3",
+    "it-pipe": "^3.0.0",
     "stream-to-it": "^0.2.0"
   }
 }
