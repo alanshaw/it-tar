@@ -1,3 +1,17 @@
+## [6.0.2](https://github.com/alanshaw/it-tar/compare/v6.0.1...v6.0.2) (2024-02-20)
+
+
+### Trivial Changes
+
+* add or force update .github/workflows/js-test-and-release.yml ([#66](https://github.com/alanshaw/it-tar/issues/66)) ([4dc79e1](https://github.com/alanshaw/it-tar/commit/4dc79e1066bf0620b8ac990480aed951337fc8f4))
+* delete templates [skip ci] ([#65](https://github.com/alanshaw/it-tar/issues/65)) ([cd6e485](https://github.com/alanshaw/it-tar/commit/cd6e485fdaaa545d28a88a54cfcd21de09ecca25))
+
+
+### Dependencies
+
+* bump it-to-buffer from 3.0.1 to 4.0.5 ([#68](https://github.com/alanshaw/it-tar/issues/68)) ([aac7e3e](https://github.com/alanshaw/it-tar/commit/aac7e3e2d05ec5852974a7fe2208f8bcfaac13c7))
+* **dev:** bump it-pipe from 2.0.5 to 3.0.1 ([#64](https://github.com/alanshaw/it-tar/issues/64)) ([00c8d23](https://github.com/alanshaw/it-tar/commit/00c8d23b52c3d7c17b8440b6b71decbe61a952f6))
+
 ## [6.0.1](https://github.com/alanshaw/it-tar/compare/v6.0.0...v6.0.1) (2022-10-18)
 
 

@@ -1,7 +1,7 @@
 {
   "name": "it-tar",
-  "version": "6.0.1",
-  "description": "it-tar is a streaming tar parser and generator. It operates purely using async iterables which means you can easily extract/parse tarballs without ever hitting the file system.",
+  "version": "6.0.2",
+  "description": "it-tar is a streaming tar parser (and maybe a generator in the future) and nothing else. It operates purely using async iterables which means you can easily extract/parse tarballs without ever hitting the file system.",
   "author": "Alan Shaw",
   "license": "Apache-2.0 OR MIT",
   "homepage": "https://github.com/alanshaw/it-tar#readme",
