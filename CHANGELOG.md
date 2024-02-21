@@ -1,3 +1,10 @@
+## [6.0.4](https://github.com/alanshaw/it-tar/compare/v6.0.3...v6.0.4) (2024-02-21)
+
+
+### Dependencies
+
+* bump it-stream-types from 1.0.5 to 2.0.1 ([#63](https://github.com/alanshaw/it-tar/issues/63)) ([21e888f](https://github.com/alanshaw/it-tar/commit/21e888f6585b15224d78266c3cdb1ca1544eddeb))
+
 ## [6.0.3](https://github.com/alanshaw/it-tar/compare/v6.0.2...v6.0.3) (2024-02-21)
 
 
