@@ -34,6 +34,7 @@ To create a pack stream use `tar.pack()` and pipe entries to it.
 import fs from 'node:fs'
 import Tar from 'it-tar'
 import { pipe } from 'it-pipe'
+// @ts-expect-error no types
 import { sink } from 'stream-to-it'
 
 await pipe(
@@ -90,6 +91,7 @@ Using tar-stream it is easy to rewrite paths / change modes etc in an existing t
 ```TypeScript
 import Tar from 'it-tar'
 import { pipe } from 'it-pipe'
+// @ts-expect-error no types
 import { sink } from 'stream-to-it'
 import fs from 'node:fs'
 import path from 'node:path'

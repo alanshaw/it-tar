@@ -13,6 +13,7 @@
  * import fs from 'node:fs'
  * import Tar from 'it-tar'
  * import { pipe } from 'it-pipe'
+ * // @ts-expect-error no types
  * import { sink } from 'stream-to-it'
  *
  * await pipe(
@@ -69,6 +70,7 @@
  * ```TypeScript
  * import Tar from 'it-tar'
  * import { pipe } from 'it-pipe'
+ * // @ts-expect-error no types
  * import { sink } from 'stream-to-it'
  * import fs from 'node:fs'
  * import path from 'node:path'
