@@ -1,11 +1,11 @@
+import Fs from 'fs'
+import Zlib from 'zlib'
 import { expect } from 'aegir/chai'
+import { pipe } from 'it-pipe'
+// @ts-expect-error no types
+import { transform } from 'stream-to-it'
 import * as Tar from '../src/index.js'
 import * as Fixtures from './fixtures/index.js'
-import Zlib from 'zlib'
-import Fs from 'fs'
-// @ts-expect-error no types
-import toIterable from 'stream-to-it'
-import { pipe } from 'it-pipe'
 
 describe('huge', function () {
   this.timeout(120 * 1000)
@@ -17,7 +17,7 @@ describe('huge', function () {
 
     await pipe(
       Fs.createReadStream(Fixtures.HUGE),
-      toIterable.transform(Zlib.createGunzip()),
+      transform<Uint8Array>(Zlib.createGunzip()),
       Tar.extract(),
       async source => {
         for await (const entry of source) {

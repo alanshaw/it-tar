@@ -10,7 +10,7 @@ const MASK = parseInt('7777', 8)
 const MAGIC_OFFSET = 257
 const VERSION_OFFSET = 263
 
-const toTypeflag = function (flag?: EntryType) {
+const toTypeflag = function (flag?: EntryType): number {
   switch (flag) {
     case 'file':
       return 0
@@ -35,7 +35,7 @@ const toTypeflag = function (flag?: EntryType) {
   }
 }
 
-const cksum = function (block: Uint8Array) {
+const cksum = function (block: Uint8Array): number {
   let sum = 8 * 32
   for (let i = 0; i < 148; i++) sum += block[i]
   for (let j = 156; j < 512; j++) sum += block[j]
@@ -52,7 +52,7 @@ const encodeOct = function (val: number, n: number): Uint8Array {
   return uint8ArrayFromString(ZEROS.slice(0, n - str.length) + str + ' ')
 }
 
-const addLength = function (str: string) {
+const addLength = function (str: string): string {
   const len = uint8ArrayFromString(str).byteLength
   let digits = Math.floor(Math.log(len) / Math.log(10)) + 1
 
@@ -63,7 +63,7 @@ const addLength = function (str: string) {
   return `${len + digits}${str}`
 }
 
-export function encodePax (opts: TarEntryHeader) { // TODO: encode more stuff in pax
+export function encodePax (opts: TarEntryHeader): Uint8Array { // TODO: encode more stuff in pax
   let result = ''
   if (opts.name != null) {
     result += addLength(' path=' + opts.name + '\n')

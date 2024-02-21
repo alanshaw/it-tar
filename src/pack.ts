@@ -2,18 +2,18 @@
 import isoConstants from 'iso-constants'
 import toBuffer from 'it-to-buffer'
 import { isUint8ArrayList, Uint8ArrayList } from 'uint8arraylist'
-import type { TarEntryHeader, TarImportCandidate } from './index.js'
-import * as Headers from './pack-headers.js'
-import type { Source, Transform } from 'it-stream-types'
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
+import * as Headers from './pack-headers.js'
+import type { EntryType, TarEntryHeader, TarImportCandidate } from './index.js'
+import type { Source, Transform } from 'it-stream-types'
 
 const { S_IFMT, S_IFBLK, S_IFCHR, S_IFDIR, S_IFIFO, S_IFLNK } = isoConstants
 const DMODE = parseInt('755', 8)
 const FMODE = parseInt('644', 8)
 const END_OF_TAR = new Uint8Array(1024)
 
-function modeToType (mode: number = 0) {
+function modeToType (mode: number = 0): EntryType {
   switch (mode & S_IFMT) {
     case S_IFBLK: return 'block-device'
     case S_IFCHR: return 'character-device'
@@ -24,7 +24,7 @@ function modeToType (mode: number = 0) {
   }
 }
 
-function getPadding (size: number) {
+function getPadding (size: number): Uint8Array {
   size &= 511
 
   if (size !== 0) {
@@ -34,7 +34,7 @@ function getPadding (size: number) {
   return new Uint8Array(0)
 }
 
-function encode (header: TarEntryHeader) {
+function encode (header: TarEntryHeader): Uint8Array {
   if (header.pax == null) {
     const encoded = Headers.encode(header)
 
@@ -45,7 +45,7 @@ function encode (header: TarEntryHeader) {
   return encodePax(header)
 }
 
-function encodePax (header: TarEntryHeader) {
+function encodePax (header: TarEntryHeader): Uint8Array {
   const paxHeader = Headers.encodePax(header)
 
   const newHeader: TarEntryHeader = {
@@ -71,7 +71,7 @@ function encodePax (header: TarEntryHeader) {
   ).subarray()
 }
 
-export function pack (): Transform<TarImportCandidate, Uint8Array> {
+export function pack (): Transform<Source<TarImportCandidate>, AsyncGenerator<Uint8Array>> {
   return async function * (source: Source<TarImportCandidate>) { // eslint-disable-line complexity
     for await (let { header: partialHeader, body } of source) {
       const header: TarEntryHeader = {

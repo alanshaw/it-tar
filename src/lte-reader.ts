@@ -1,10 +1,10 @@
-import { isUint8ArrayList, Uint8ArrayList } from 'uint8arraylist'
 import { reader } from 'it-reader'
+import { isUint8ArrayList, Uint8ArrayList } from 'uint8arraylist'
 import type { Source } from 'it-stream-types'
 
 export interface LteReader extends AsyncIterator<Uint8ArrayList, void, number | undefined> {
-  nextLte: (bytes: number) => Promise<IteratorResult<Uint8ArrayList>>
-  return: () => Promise<IteratorResult<Uint8ArrayList>>
+  nextLte(bytes: number): Promise<IteratorResult<Uint8ArrayList>>
+  return(): Promise<IteratorResult<Uint8ArrayList>>
 }
 
 export function lteReader (source: Source<Uint8Array>): LteReader {
@@ -44,7 +44,7 @@ export function lteReader (source: Source<Uint8Array>): LteReader {
         return result
       }
 
-      return await input.next(bytes)
+      return input.next(bytes)
     },
     async nextLte (bytes: number): Promise<IteratorResult<Uint8ArrayList>> {
       const { done, value } = await lteReader.next()
@@ -71,7 +71,7 @@ export function lteReader (source: Source<Uint8Array>): LteReader {
       return { done: false, value: list.sublist(0, bytes) }
     },
     async return () {
-      return await input.return()
+      return input.return()
     }
   }
 

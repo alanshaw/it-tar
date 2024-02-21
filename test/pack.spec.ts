@@ -1,10 +1,10 @@
-import { expect } from 'aegir/chai'
-import * as Tar from '../src/index.js'
-import * as Fixtures from './fixtures/index.js'
 import Fs from 'fs'
+import { expect } from 'aegir/chai'
 import { pipe } from 'it-pipe'
 import toBuffer from 'it-to-buffer'
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
+import * as Tar from '../src/index.js'
+import * as Fixtures from './fixtures/index.js'
 
 describe('pack', () => {
   it('one-file', async () => {
@@ -24,7 +24,7 @@ describe('pack', () => {
     const data = await pipe(
       entries,
       Tar.pack(),
-      async (source) => await toBuffer(source)
+      async (source) => toBuffer(source)
     )
 
     expect(data.length & 511).to.equal(0)
@@ -60,7 +60,7 @@ describe('pack', () => {
     const data = await pipe(
       entries,
       Tar.pack(),
-      async (source) => await toBuffer(source)
+      async (source) => toBuffer(source)
     )
 
     expect(data.length & 511).to.equal(0)
@@ -85,7 +85,7 @@ describe('pack', () => {
     const data = await pipe(
       entries,
       Tar.pack(),
-      async (source) => await toBuffer(source)
+      async (source) => toBuffer(source)
     )
 
     expect(data.length & 511).to.equal(0)
@@ -122,7 +122,7 @@ describe('pack', () => {
     const data = await pipe(
       entries,
       Tar.pack(),
-      async (source) => await toBuffer(source)
+      async (source) => toBuffer(source)
     )
 
     expect(data.length & 511).to.equal(0)
@@ -147,7 +147,7 @@ describe('pack', () => {
     const data = await pipe(
       entries,
       Tar.pack(),
-      async (source) => await toBuffer(source)
+      async (source) => toBuffer(source)
     )
 
     expect(data.length & 511).to.equal(0)
@@ -171,7 +171,7 @@ describe('pack', () => {
     const data = await pipe(
       entries,
       Tar.pack(),
-      async (source) => await toBuffer(source)
+      async (source) => toBuffer(source)
     )
 
     expect(data.length & 511).to.equal(0)
@@ -196,7 +196,7 @@ describe('pack', () => {
     const data = await pipe(
       entries,
       Tar.pack(),
-      async (source) => await toBuffer(source)
+      async (source) => toBuffer(source)
     )
 
     expect(data.length & 511).to.equal(0)

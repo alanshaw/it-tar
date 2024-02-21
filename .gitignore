@@ -1,5 +1,9 @@
 node_modules
-sandbox.js
-package-lock.json
+build
 dist
+.docs
 .coverage
+node_modules
+package-lock.json
+yarn.lock
+.vscode

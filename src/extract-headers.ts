@@ -1,8 +1,8 @@
 import { Uint8ArrayList, isUint8ArrayList } from 'uint8arraylist'
-import { SupportedEncodings, toString as uint8ArrayToString } from 'uint8arrays/to-string'
-import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import { compare as uint8ArrayCompare } from 'uint8arrays/compare'
-import type { TarEntryHeader } from '.'
+import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
+import { type SupportedEncodings, toString as uint8ArrayToString } from 'uint8arrays/to-string'
+import type { EntryType, TarEntryHeader } from './index.js'
 
 const ZERO_OFFSET = '0'.charCodeAt(0)
 const USTAR_MAGIC = uint8ArrayFromString('ustar\x00', 'binary')
@@ -11,7 +11,7 @@ const GNU_VER = uint8ArrayFromString('\x20\x00', 'binary')
 const MAGIC_OFFSET = 257
 const VERSION_OFFSET = 263
 
-const clamp = function (index: number, len: number, defaultValue: number) {
+const clamp = function (index: number, len: number, defaultValue: number): number {
   if (typeof index !== 'number') return defaultValue
   index = ~~index // Coerce to integer.
   if (index >= len) return len
@@ -21,7 +21,7 @@ const clamp = function (index: number, len: number, defaultValue: number) {
   return 0
 }
 
-const toType = function (flag: number) {
+const toType = function (flag: number): EntryType | undefined {
   switch (flag) {
     case 0:
       return 'file'
@@ -53,14 +53,14 @@ const toType = function (flag: number) {
   }
 }
 
-const indexOf = function (block: Uint8ArrayList, num: number, offset: number, end: number) {
+const indexOf = function (block: Uint8ArrayList, num: number, offset: number, end: number): number {
   for (; offset < end; offset++) {
     if (block.get(offset) === num) return offset
   }
   return end
 }
 
-const cksum = function (block: Uint8ArrayList) {
+const cksum = function (block: Uint8ArrayList): number {
   let sum = 8 * 32
   for (let i = 0; i < 148; i++) sum += block.get(i)
   for (let j = 156; j < 512; j++) sum += block.get(j)
@@ -133,16 +133,16 @@ const decodeOct = function (val: Uint8ArrayList, offset: number, length: number)
   }
 }
 
-const decodeStr = function (val: Uint8ArrayList, offset: number, length: number, encoding?: SupportedEncodings) {
+const decodeStr = function (val: Uint8ArrayList, offset: number, length: number, encoding?: SupportedEncodings): string {
   return uint8ArrayToString(val.subarray(offset, indexOf(val, 0, offset, offset + length)), encoding)
 }
 
-export function decodeLongPath (buf: Uint8ArrayList | Uint8Array, encoding?: SupportedEncodings) {
+export function decodeLongPath (buf: Uint8ArrayList | Uint8Array, encoding?: SupportedEncodings): string {
   const list = isUint8ArrayList(buf) ? buf : new Uint8ArrayList(buf)
   return decodeStr(list, 0, buf.length, encoding)
 }
 
-export function decodePax (buf: Uint8ArrayList | Uint8Array, encoding?: SupportedEncodings) {
+export function decodePax (buf: Uint8ArrayList | Uint8Array, encoding?: SupportedEncodings): Record<string, string> {
   let list = isUint8ArrayList(buf) ? buf : new Uint8ArrayList(buf)
   const result: Record<string, string> = {}
 
@@ -221,17 +221,17 @@ export function decode (buf: Uint8ArrayList | Uint8Array, filenameEncoding?: Sup
   }
 
   return {
-    name: name,
-    mode: mode,
-    uid: uid,
-    gid: gid,
-    size: size,
+    name,
+    mode,
+    uid,
+    gid,
+    size,
     mtime: new Date(1000 * (mtime ?? 0)),
-    type: type,
-    linkname: linkname,
-    uname: uname,
-    gname: gname,
-    devmajor: devmajor,
-    devminor: devminor
+    type,
+    linkname,
+    uname,
+    gname,
+    devmajor,
+    devminor
   }
 }

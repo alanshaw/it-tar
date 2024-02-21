@@ -1,43 +1,41 @@
-# it-tar <!-- omit in toc -->
+# it-tar
 
 [![codecov](https://img.shields.io/codecov/c/github/alanshaw/it-tar.svg?style=flat-square)](https://codecov.io/gh/alanshaw/it-tar)
-[![CI](https://img.shields.io/github/workflow/status/alanshaw/it-tar/test%20&%20maybe%20release/master?style=flat-square)](https://github.com/alanshaw/it-tar/actions/workflows/js-test-and-release.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/alanshaw/it-tar/js-test-and-release.yml?branch=master\&style=flat-square)](https://github.com/alanshaw/it-tar/actions/workflows/js-test-and-release.yml?query=branch%3Amaster)
 
-> it-tar is a streaming tar parser (and maybe a generator in the future) and nothing else. It operates purely using async iterables which means you can easily extract/parse tarballs without ever hitting the file system.
+> it-tar is a streaming tar parser and generator. It operates purely using async iterables which means you can easily extract/parse tarballs without ever hitting the file system.
 
-## Table of contents <!-- omit in toc -->
+# About
 
-- [Install](#install)
-- [Usage](#usage)
-  - [Packing](#packing)
-  - [Extracting](#extracting)
-    - [Headers](#headers)
-- [Modifying existing tarballs](#modifying-existing-tarballs)
-- [Related](#related)
-- [Contribute](#contribute)
-- [License](#license)
-- [Contribution](#contribution)
+<!--
 
-## Install
+!IMPORTANT!
 
-```console
-$ npm i it-tar
-```
+Everything in this README between "# About" and "# Install" is automatically
+generated and will be overwritten the next time the doc generator is run.
 
-## Usage
+To make changes to this section, please update the @packageDocumentation section
+of src/index.js or src/index.ts
+
+To experiment with formatting, please run "npm run docs" from the root of this
+repo and examine the changes made.
+
+-->
 
 `it-tar` [packs](#packing) and [extracts](#extracts) tarballs.
 
-It implementes USTAR with additional support for pax extended headers. It should be compatible with all popular tar distributions out there (gnutar, bsdtar etc)
+It implements USTAR with additional support for pax extended headers. It should be compatible with all popular tar distributions out there (gnutar, bsdtar etc)
 
-### Packing
+## Example - Packing
 
 To create a pack stream use `tar.pack()` and pipe entries to it.
 
-```js
-const Tar = require('it-tar')
+```TypeScript
+import fs from 'node:fs'
+import Tar from 'it-tar'
 import { pipe } from 'it-pipe'
-const toIterable = require('stream-to-it')
+// @ts-expect-error no types
+import { sink } from 'stream-to-it'
 
 await pipe(
   [
@@ -51,25 +49,25 @@ await pipe(
       header: { name: 'my-stream-test.txt', size: 11 },
       body: fs.createReadStream('./my-stream-test.txt')
     }
-  ]
+  ],
   Tar.pack(),
   // pipe the pack stream somewhere
-  toIterable.sink(process.stdout)
+  sink(process.stdout)
 )
 ```
 
-### Extracting
+## Example - Extracting
 
 To extract a stream use `tar.extract()` and pipe a [source iterable](https://gist.github.com/alanshaw/591dc7dd54e4f99338a347ef568d6ee9#source-it) to it.
 
-```js
-const Tar = require('it-tar')
+```TypeScript
+import Tar from 'it-tar'
 import { pipe } from 'it-pipe'
 
 await pipe(
-  source, // An async iterable (for example a Node.js readable stream)
+  [Uint8Array.from([0, 1, 2, 3, 4])], // An async iterable (for example a Node.js readable stream)
   Tar.extract(),
-  source => {
+  async source => {
     for await (const entry of source) {
       // entry.header is the tar header (see below)
       // entry.body is the content body (might be an empty async iterable)
@@ -84,7 +82,35 @@ await pipe(
 
 The tar archive is streamed sequentially, meaning you **must** drain each entry's body as you get them or else the main extract stream will receive backpressure and stop reading.
 
-Note that the body stream yields [`BufferList`](https://npm.im/bl) objects **not** `Buffer`s.
+Note that the body stream yields [`Uint8ArrayList`](https://npm.im/uint8arraylist) objects **not** `Uint8Arrays`s.
+
+## Example - Modifying existing tarballs
+
+Using tar-stream it is easy to rewrite paths / change modes etc in an existing tarball.
+
+```TypeScript
+import Tar from 'it-tar'
+import { pipe } from 'it-pipe'
+// @ts-expect-error no types
+import { sink } from 'stream-to-it'
+import fs from 'node:fs'
+import path from 'node:path'
+
+await pipe(
+  fs.createReadStream('./old-tarball.tar'),
+  Tar.extract(),
+  async function * (source) {
+    for await (const entry of source) {
+      // let's prefix all names with 'tmp'
+      entry.header.name = path.join('tmp', entry.header.name)
+      // write the new entry to the pack stream
+      yield entry
+    }
+  },
+  Tar.pack(),
+  sink(fs.createWriteStream('./new-tarball.tar'))
+)
+```
 
 #### Headers
 
@@ -110,48 +136,29 @@ Most of these values can be found by stat'ing a file.
 }
 ```
 
-## Modifying existing tarballs
-
-Using tar-stream it is easy to rewrite paths / change modes etc in an existing tarball.
-
-```js
-const Tar = require('it-tar')
-import { pipe } from 'it-pipe'
-const toIterable = require('stream-to-it')
-
-await pipe(
-  fs.createReadStream('./old-tarball.tar'),
-  Tar.extract(),
-  async function * (source) {
-    for await (const entry of source) {
-      // let's prefix all names with 'tmp'
-      entry.header.name = path.join('tmp', entry.header.name)
-      // write the new entry to the pack stream
-      yield entry
-    }
-  },
-  Tar.pack(),
-  toIterable.sink(fs.createWriteStream('./new-tarball.tar'))
-)
-```
-
 ## Related
 
 - [`it-pipe`](https://www.npmjs.com/package/it-pipe) Utility to "pipe" async iterables together
 - [`it-reader`](https://www.npmjs.com/package/it-reader) Read an exact number of bytes from a binary (async) iterable
 - [`stream-to-it`](https://www.npmjs.com/package/stream-to-it) Convert Node.js streams to streaming iterables
 
-## Contribute
+# Install
 
-Feel free to dive in! [Open an issue](https://github.com/alanshaw/it-tar/issues/new) or submit PRs.
+```console
+$ npm i it-tar
+```
 
-## License
+# API Docs
+
+- <https://alanshaw.github.io/it-tar>
+
+# License
 
 Licensed under either of
 
 - Apache 2.0, ([LICENSE-APACHE](LICENSE-APACHE) / <http://www.apache.org/licenses/LICENSE-2.0>)
 - MIT ([LICENSE-MIT](LICENSE-MIT) / <http://opensource.org/licenses/MIT>)
 
-## Contribution
+# Contribution
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
