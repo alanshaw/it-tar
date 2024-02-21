@@ -1,3 +1,10 @@
+## [6.0.3](https://github.com/alanshaw/it-tar/compare/v6.0.2...v6.0.3) (2024-02-21)
+
+
+### Dependencies
+
+* bump uint8arrays from 4.0.10 to 5.0.2 ([#69](https://github.com/alanshaw/it-tar/issues/69)) ([cec8ae6](https://github.com/alanshaw/it-tar/commit/cec8ae6f078d6fbb37e53080f46a5259c19625e8))
+
 ## [6.0.2](https://github.com/alanshaw/it-tar/compare/v6.0.1...v6.0.2) (2024-02-20)
 
 
