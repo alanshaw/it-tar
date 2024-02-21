@@ -1,13 +1,13 @@
-import type { Source, Transform } from 'it-stream-types'
 import defer from 'p-defer'
-import type { Uint8ArrayList } from 'uint8arraylist'
-import type { SupportedEncodings } from 'uint8arrays/to-string'
 import * as Headers from './extract-headers.js'
 import { lteReader } from './lte-reader.js'
-import type { LteReader } from './lte-reader.js'
 import type { TarEntry } from './index.js'
+import type { LteReader } from './lte-reader.js'
+import type { Source, Transform } from 'it-stream-types'
+import type { Uint8ArrayList } from 'uint8arraylist'
+import type { SupportedEncodings } from 'uint8arrays/to-string'
 
-function getPadding (size: number) {
+function getPadding (size: number): number {
   size &= 511
 
   if (size !== 0) {
@@ -17,7 +17,7 @@ function getPadding (size: number) {
   return 0
 }
 
-async function discardPadding (reader: LteReader, size: number) {
+async function discardPadding (reader: LteReader, size: number): Promise<void> {
   const overflow = getPadding(size)
   if (overflow > 0) {
     await reader.next(overflow)
@@ -34,7 +34,7 @@ export interface Derp {
   body: Source<Uint8Array>
 }
 
-export function extract (options: ExtractOptions = {}): Transform<Uint8Array, TarEntry> {
+export function extract (options: ExtractOptions = {}): Transform<Source<Uint8Array>, AsyncGenerator<TarEntry>> {
   options.highWaterMark = options.highWaterMark ?? 1024 * 16
 
   return async function * (source: Source<Uint8Array>) { // eslint-disable-line complexity

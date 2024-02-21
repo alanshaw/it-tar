@@ -1,7 +1,7 @@
 {
   "name": "it-tar",
   "version": "6.0.1",
-  "description": "it-tar is a streaming tar parser (and maybe a generator in the future) and nothing else. It operates purely using async iterables which means you can easily extract/parse tarballs without ever hitting the file system.",
+  "description": "it-tar is a streaming tar parser and generator. It operates purely using async iterables which means you can easily extract/parse tarballs without ever hitting the file system.",
   "author": "Alan Shaw",
   "license": "Apache-2.0 OR MIT",
   "homepage": "https://github.com/alanshaw/it-tar#readme",
@@ -11,6 +11,10 @@
   },
   "bugs": {
     "url": "https://github.com/alanshaw/it-tar/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   },
   "keywords": [
     "extract",
@@ -28,15 +32,11 @@
     "tar",
     "tarball"
   ],
-  "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=7.0.0"
-  },
   "type": "module",
   "types": "./dist/src/index.d.ts",
   "files": [
     "src",
-    "dist/src",
+    "dist",
     "!dist/test",
     "!**/*.tsbuildinfo"
   ],
@@ -49,6 +49,7 @@
   "eslintConfig": {
     "extends": "ipfs",
     "parserOptions": {
+      "project": true,
       "sourceType": "module"
     }
   },
@@ -140,7 +141,9 @@
   "scripts": {
     "clean": "aegir clean",
     "lint": "aegir lint",
+    "docs": "aegir docs",
     "dep-check": "aegir dep-check",
+    "doc-check": "aegir doc-check",
     "build": "aegir build",
     "postbuild": "cp ./test/fixtures/*.tar ./test/fixtures/*.tar.gz ./test/fixtures/*.tgz ./dist/test/fixtures",
     "test": "aegir test -t node",
@@ -151,16 +154,19 @@
   "dependencies": {
     "iso-constants": "^0.1.2",
     "it-reader": "^6.0.1",
-    "it-stream-types": "^1.0.4",
+    "it-stream-types": "^2.0.1",
     "it-to-buffer": "^4.0.5",
     "p-defer": "^4.0.0",
     "uint8arraylist": "^2.3.2",
-    "uint8arrays": "^4.0.2"
+    "uint8arrays": "^5.0.2"
   },
   "devDependencies": {
-    "aegir": "^38.1.8",
-    "concat-stream": "^2.0.0",
+    "aegir": "^42.2.4",
     "it-pipe": "^3.0.1",
     "stream-to-it": "^0.2.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
   }
 }

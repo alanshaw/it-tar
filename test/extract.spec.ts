@@ -1,10 +1,10 @@
+import Fs from 'fs'
 import { expect } from 'aegir/chai'
+import { pipe } from 'it-pipe'
+import toBuffer from 'it-to-buffer'
+import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
 import * as Tar from '../src/index.js'
 import * as Fixtures from './fixtures/index.js'
-import Fs from 'fs'
-import { pipe } from 'it-pipe'
-import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
-import toBuffer from 'it-to-buffer'
 
 const clamp = (index: any, len: number, defaultValue: number): number => {
   if (typeof index !== 'number') {
