@@ -23,7 +23,7 @@ export function lteReader (source: Source<Uint8Array>): LteReader {
           overflow = overflow.sublist(bytes)
         } else if (overflow.length < bytes) {
           const { value: nextValue, done } = await input.next(bytes - overflow.length)
-          if (done === true ?? nextValue == null) {
+          if (done === true) {
             throw Object.assign(
               new Error(`stream ended before ${bytes - overflow.length} bytes became available`),
               { code: 'ERR_UNDER_READ' }
