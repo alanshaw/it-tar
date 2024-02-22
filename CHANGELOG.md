@@ -1,3 +1,10 @@
+## [6.0.5](https://github.com/alanshaw/it-tar/compare/v6.0.4...v6.0.5) (2024-02-22)
+
+
+### Bug Fixes
+
+* esbuild warning about ?? operator in lte-reader ([#71](https://github.com/alanshaw/it-tar/issues/71)) ([e12843f](https://github.com/alanshaw/it-tar/commit/e12843f87fa29aa56f0bd6cd53ce0d483eeddfe4)), closes [/github.com/alanshaw/it-tar/blob/f6e492a44070816c4989af89e1602e656a27ecd4/lte-reader.js#L20](https://github.com/alanshaw//github.com/alanshaw/it-tar/blob/f6e492a44070816c4989af89e1602e656a27ecd4/lte-reader.js/issues/L20) [#67](https://github.com/alanshaw/it-tar/issues/67)
+
 ## [6.0.4](https://github.com/alanshaw/it-tar/compare/v6.0.3...v6.0.4) (2024-02-21)
 
 
