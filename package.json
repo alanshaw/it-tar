@@ -163,7 +163,7 @@
   "devDependencies": {
     "aegir": "^42.2.4",
     "it-pipe": "^3.0.1",
-    "stream-to-it": "^0.2.0"
+    "stream-to-it": "^1.0.1"
   },
   "engines": {
     "node": ">=16.0.0",
