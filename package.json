@@ -161,7 +161,7 @@
     "uint8arrays": "^5.0.2"
   },
   "devDependencies": {
-    "aegir": "^42.2.4",
+    "aegir": "^44.0.1",
     "it-pipe": "^3.0.1",
     "stream-to-it": "^0.2.0"
   },
